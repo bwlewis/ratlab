@@ -1,0 +1,3 @@
+export R_HOME="/usr/local/lib/R"
+mkoctfile --mex -I/usr/local/lib/R/include -L/usr/local/lib/R/lib ratlab.c -lR -lm
+#echo "ratlab( {'a'}, { dataframe({'col1','col2'},{{'A','A','B','B'}, [0,1,0,1]})}, 'print(table(a))')" | octave

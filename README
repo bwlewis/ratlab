@@ -1,0 +1,8 @@
+
+
+Ratlab
+Tight integration between R and Octave (or, if you prefer, R and Matlab).
+Ratlab provides a dataframe-like class for Octave (similar to the dataset
+class in the Mathworks Statistics toolbox).
+
+More soon...
