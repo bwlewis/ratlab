@@ -7,18 +7,20 @@ function x = subsasgn(obj, S, value)
     case "()"
       idx = S.subs;
 % R-style dataframe indexing behavior
-      n = length(idx{length(idx)})
+      n = length(idx{length(idx)});
       for j=1:n
-        if (length(idx)==1)
-% No row indices; replace a full column
-          obj.data{1,j} = value;
+        if(length(idx)==1)
+% No row indices; replace entire column(s)
+          if(iscell(value)) obj.data{1,idx{1}(j)} = value{j};
+          else obj.data{1,idx{1}(j)} = value(:,j);
+          end
         else
-% XXX
-          obj.data{1,idx{2}(j)}(idx{1})=value{1,j};
+% Row subset specified; general replacement
+          if(iscell(value)) obj.data{1,idx{2}(j)}(idx{1}) = value{1,j};
+          else obj.data{1,idx{2}(j)}(idx{1}) = value(:,j);
+          end
         end
       end
-      x = data;
+      x = obj;
   endswitch
-endfunction
-
 endfunction
