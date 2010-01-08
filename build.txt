@@ -1,4 +1,6 @@
 rm ratlab_internal.o
 export R_HOME="/usr/lib64/R"
 mkoctfile --mex -I/usr/share/R/include -L/usr/lib/R/lib ratlab_internal.cpp -lR -lm
-echo "a = dataframe( {'col1', 'col2'}, {}, {{'A','A','B','B'}, [0,1,0,1]} ); ratlab( {'a'}, {a}, 'print(table(a))')" | octave
+#echo "a = dataframe( {'col1', 'col2'}, {}, {{'A','A','B','B'}, [0,1,0,1]} ); ratlab( {'a'}, {a}, 'print(table(a))')" | octave
+# Modified data frame function order
+echo "a = dataframe(  {{'A','A','B','B'}, [0,1,0,1]}, {'col1', 'col2'}, {} ); ratlab( {'a'}, {a}, 'print(table(a))')" | octave

@@ -1,17 +1,26 @@
 function x = subsref(obj, S)
   switch (S.type)
-    case "."
-      x = builtin('subsref',obj, S);
     case "{}"
+% Index directly into the data field
       x = builtin('subsref',obj.data, S);
+    case "."
+% Address columns by name (like R's $ indexing and Matlab dataset)
+      colidx = obj.colidx;
+      idx = eval(strcat("colidx.",S.subs));
+      data = cell(1, 1);
+      data{1,1} = obj.data{1,idx};
+      x = dataframe(data,obj.colnames(idx),obj.rownames);
     case "()"
+% Address by numeric or labeled indicies
       idx = S.subs;
-% R-style dataframe indexing behavior
       l = length(idx);
       n = length(idx{l});
-      rownames = obj.rownames;
       data = cell(1, n);
       colnames = cell(1,n);
+      rownames = obj.rownames;
+      if(l>1 && length(rownames)>0)
+        rownames = obj.rownames(idx{1});
+      end
       for j=1:n
         if (l==1)
 % No row indices; select full columns
@@ -20,9 +29,8 @@ function x = subsref(obj, S)
         else
           data{1,j} = obj.data{1,idx{2}(j)}(idx{1});
           colnames{1,j} = obj.colnames{1,idx{2}(j)};
-          rownames = obj.rownames{1,idx{1}};
         end
       end
-      x = dataframe(colnames,rownames,data);
+      x = dataframe(data,colnames,rownames);
   endswitch
 endfunction
