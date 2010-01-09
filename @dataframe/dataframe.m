@@ -19,11 +19,7 @@ function df = dataframe(varargin)
   df.size = [0, 0];
   df.strformat = "%13.13s";    % for formatting output (see display.m)
   if (iscell(varargin{1}))
-    if (iscell((varargin{1}){1}))
       df.data = varargin{1};
-    else
-      df.data = {varargin{1}};
-    end
   elseif (ismatrix(varargin{1}))
     [m,n] = size(varargin{1});
     df.data = mat2cell(varargin{1},m,ones(1,n));

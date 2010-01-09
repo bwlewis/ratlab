@@ -42,6 +42,7 @@ extern "C"
   }
 
 // Does Matlab/Octave hold floats or integers?
+// Yes, both. -bwl
   SEXP MexDoubleMatrix2SexpVector (const mxArray * pMexMat)
   {
     if (!mxIsNumeric (pMexMat))
@@ -181,7 +182,7 @@ extern "C"
 	    return (R_NilValue);
 	  }
       }
-    // There must either be a column name for each column.
+    // There must be a column name for each column.
     unsigned int ncolNames = mxGetNumberOfElements (pColNames);
     if (!(ncolNames == ncols))
       {

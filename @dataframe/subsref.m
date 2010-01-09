@@ -15,6 +15,10 @@ function x = subsref(obj, S)
       idx = S.subs;
       l = length(idx);
       n = length(idx{l});
+      if (idx{l} == ":") 
+        n = obj.size(2);
+        idx{l} = 1:n;
+      end
       data = cell(1, n);
       colnames = cell(1,n);
       rownames = obj.rownames;
@@ -29,8 +33,8 @@ function x = subsref(obj, S)
         else
           data{1,j} = obj.data{1,idx{2}(j)}(idx{1});
           colnames{1,j} = obj.colnames{1,idx{2}(j)};
-        end
-      end
+        end %if
+      end %for
       x = dataframe(data,colnames,rownames);
   end %switch
 end %function
