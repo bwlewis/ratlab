@@ -32,5 +32,5 @@ function x = subsref(obj, S)
         end
       end
       x = dataframe(data,colnames,rownames);
-  endswitch
-endfunction
+  end %switch
+end %function

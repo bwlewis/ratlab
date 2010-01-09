@@ -3,14 +3,8 @@ function display(obj)
 % Obvious things to do:
 % Limit number of printed output rows; improve lazy dimension handling
 % of the data field objects (it's pretty ugly).
-% Vectorize?
-obj.data
-  m = length(obj.data{1})
-  n = length(obj.data)
-  if (~iscell(obj.data{1}))
-    m = length(obj.data);
-    n = 1;
-  end
+  m = obj.size(1);   % row count
+  n = obj.size(2);   % column count
   l = length(obj.rownames);
   if (l==m) 
     printf(obj.strformat, '');
@@ -24,15 +18,16 @@ obj.data
       printf(obj.strformat, obj.rownames{j});
     end
     for k = 1:n
-      if(iscell(obj.data{k})) printf(obj.strformat,obj.data{k}{j});
-      else 
-        if (n ==1 )
-          printf(obj.strformat,num2str(obj.data{j}));
+      if(length(obj.data{k}) == m)
+        if (iscell(obj.data{k}))
+          printf(obj.strformat,num2str(obj.data{k}{j}));
         else
           printf(obj.strformat,num2str(obj.data{k}(j)));
         end
+      else
+        printf(obj.strformat,num2str((obj.data{k}{1})(j)));
       end
     end
     printf ('\n');
   end
-endfunction
+end %function

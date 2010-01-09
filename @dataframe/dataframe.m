@@ -1,9 +1,9 @@
 function df = dataframe(varargin)
-%
-% A dataframe class for Matlab and Octave.
-% The dataframe class represents a two-dimensional array of uniformly-
-% typed columns. The columns may be of distinct types, however. Columns
-% must be labeled with unique names. Row labels are optional.
+% DATAFRAME: A dataframe class for Matlab and Octave.
+% The dataframe class represents a two-dimensional array where each column
+% is of a uniform type. The columns may be of distinct types, however. The
+% columns are labeled with distinct names, and may be indexed by names in
+% several ways as shown in the examples. Row labels are optional.
 % 
 % A = dataframe(data)
 % A = dataframe(data, colnames)
@@ -16,6 +16,7 @@ function df = dataframe(varargin)
   df.colidx = NA;
   df.rownames = {};
   df.rowidx = NA;
+  df.size = [0, 0];
   df.strformat = "%13.13s";    % for formatting output (see display.m)
   if (iscell(varargin{1}))
     if (iscell((varargin{1}){1}))
@@ -29,7 +30,11 @@ function df = dataframe(varargin)
   else
     error('Data must be either cell or matrix format.');
   end
+  if(iscell(varargin{1}))
+    m = length(varargin{1}{1});
+  end
   n = length(df.data);
+  df.size = [m,n];
   if (nargin > 1) 
 % Record provided column names and index them.
     df.colnames = varargin{2};
@@ -65,4 +70,4 @@ function df = dataframe(varargin)
     end
   end
   df = class(df, 'dataframe');
-endfunction
+end %function

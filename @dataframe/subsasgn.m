@@ -26,5 +26,5 @@ function x = subsasgn(obj, S, value)
         end
       end
       x = obj;
-  endswitch
-endfunction
+  end %switch
+end %function
