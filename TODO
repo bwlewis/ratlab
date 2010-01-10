@@ -7,6 +7,12 @@ Dataframe
  We can always "factorize" string lablels as needed (slower, but more general). Column
  labels are always stored in factor form.
 
+- XXX indexing is still not perfect. This is a bad example:
+x=dataframe({{1:4},{2:5},{3:6}},{'a','b','c'})   no, no, no
+cf. 
+x=dataframe({1:4,2:5,3:6},{'a','b','c'})   OK, this is what we want
+
+
 Ratlab functions
 -Wrapper for contingency table
 -Other wrappers...
