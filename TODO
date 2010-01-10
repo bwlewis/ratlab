@@ -1,0 +1,14 @@
+Dataframe
+-Class conversions
+  asMatrix, asCell, asStruct (or maybe use dataframe2matrix, ...)
+-Index by row label
+-Add functions for modifying colnames
+-Consider keeping rownames in native format to accomodate time series similarly to xts.
+ We can always "factorize" string lablels as needed (slower, but more general). Column
+ labels are always stored in factor form.
+
+Ratlab functions
+-Wrapper for contingency table
+-Other wrappers...
+
+-Shared memory coupling for large data

@@ -187,7 +187,7 @@ extern "C"
     if (!(ncolNames == ncols))
       {
 	Rf_endEmbeddedR (0);
-	printf ("There must be one column names for each column.\n");
+	printf ("There must be one column name for each column.\n");
 	return (R_NilValue);
       }
     // Now, let's try to create the data frame
@@ -241,6 +241,7 @@ extern "C"
     return (ret);
   }
 
+// XXX XXX XXX XXX XXX
   SEXP *CreateSexps (const mxArray * pMexMat)
   {
     int nVectors = mxGetNumberOfElements (pMexMat);
@@ -269,16 +270,16 @@ extern "C"
 		  }
 	      }
 	  }
-	else if (mxIsClass (pElem, "struct"))
-	  {
+//	else if (mxIsClass (pElem, "struct"))
+//	  {
 	    // Let's just make sure it looks like a dataframe struct.
-	    if (mxGetNumberOfFields (pElem) != 4)
-	      {
-		Rf_endEmbeddedR (0);
-		printf ("Bad struct passed to ratlab_internal\n");
-		return (NULL);
-	      }
-	  }
+//	    if (mxGetNumberOfFields (pElem) != 4)
+//	      {
+//		Rf_endEmbeddedR (0);
+//		printf ("Bad struct passed to ratlab_internal\n");
+//		return (NULL);
+//	      }
+//	  }
 	else if (!mxIsNumeric (pElem))
 	  {
 	    printf ("Cell %d contains an unsupported type: %s\n", i,
