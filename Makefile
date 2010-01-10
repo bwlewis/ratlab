@@ -7,5 +7,6 @@ all:
 clean:
 	rm -rf *.o *.mex
 
-example:
-	export R_HOME=$(R_HOME); export LD_LIBRARY_PATH=$(R_HOME)/lib; echo "a = dataframe( {{'A','A','B','B'}, [0,1,0,1]}, {'col1', 'col2'}); ratlab( {'a'}, {a}, 'table(a)')" | octave
+test:
+#	export R_HOME=$(R_HOME); export LD_LIBRARY_PATH=$(R_HOME)/lib; echo "a = dataframe( {{'A','A','B','B'}, [0,1,0,1]}, {'col1', 'col2'}); ratlab( {'a'}, {a}, 'table(a)')" | octave --quiet
+	export R_HOME=$(R_HOME); export LD_LIBRARY_PATH=$(R_HOME)/lib; echo "a = dataframe({round(rand(100,1)*10)}); ratlab( {'a'}, {a}, 'table(a)')" | octave --quiet

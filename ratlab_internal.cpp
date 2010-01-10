@@ -241,7 +241,6 @@ extern "C"
     return (ret);
   }
 
-// XXX XXX XXX XXX XXX
   SEXP *CreateSexps (const mxArray * pMexMat)
   {
     int nVectors = mxGetNumberOfElements (pMexMat);
@@ -270,16 +269,18 @@ extern "C"
 		  }
 	      }
 	  }
-//	else if (mxIsClass (pElem, "struct"))
-//	  {
-	    // Let's just make sure it looks like a dataframe struct.
-//	    if (mxGetNumberOfFields (pElem) != 4)
-//	      {
-//		Rf_endEmbeddedR (0);
-//		printf ("Bad struct passed to ratlab_internal\n");
-//		return (NULL);
-//	      }
-//	  }
+	else if (mxIsClass (pElem, "struct"))
+	  {
+// Let's make sure it looks like a dataframe struct.
+// Changed this from a field count to looking for a structure with a
+// field named "colnames." XXX This should be further improved. -bwl
+            if (!mxGetField(pElem,0,"colnames"))
+	      {
+		Rf_endEmbeddedR (0);
+		printf ("Bad struct passed to ratlab_internal\n");
+		return (NULL);
+	      }
+	  }
 	else if (!mxIsNumeric (pElem))
 	  {
 	    printf ("Cell %d contains an unsupported type: %s\n", i,
@@ -335,7 +336,8 @@ extern "C"
     free (pStrings);
   }
 
-//  The R command to run.
+// The R command to run.
+// Three right-hand sides: {{symbol names}, {data}, "R statement"}
   void mexFunction (int nlhs, mxArray * plhs[], int nrhs,
 		    const mxArray * prhs[])
   {
@@ -350,7 +352,7 @@ extern "C"
     // Make sure we have a variable name for each data cell array element.
     if (mxGetNumberOfElements (prhs[0]) != mxGetNumberOfElements (prhs[1]))
       {
-	printf ("There are %ld variable names and %ld data vectors!\n",
+	printf ("Error: there are %ld variable names but %ld data vectors!\n",
 		mxGetNumberOfElements (prhs[0]),
 		mxGetNumberOfElements (prhs[1]));
 	return;
@@ -359,7 +361,7 @@ extern "C"
     // Make sure the third parameter is a string.
     if (!mxIsChar (prhs[2]))
       {
-	printf ("The third parameter must be an R command.\n");
+	printf ("The third parameter must be an R statement.\n");
 	return;
       }
 
@@ -398,11 +400,15 @@ extern "C"
     RExecuteString ((string ("ratlabReturn=") + pCommand).c_str ());
     // ratlabReturn holds the return of the command.  Try to typecast it
     // to a matrix.
+// XXX XXX XXX Need more general R to Matlab conversion here.
+RExecuteString ("print(ratlabReturn)");
+RExecuteString ("xxx=ls.str()");
+RExecuteString ("print(xxx,give.attr=TRUE)");
     RExecuteString
       ("ratlabReturn = matrix(as.double(ratlabReturn), nrow=nrow(ratlabReturn), ncol=ncol(ratlabReturn), dimnames=dimnames(ratlabReturn))");
-
+// XXX
     // Now get the R matrix and return it as a struct.
-    // TODO: How do we create an octave dataframe directly?
+    // TODO: If appropriate, return as a dataframe or matrix.
     SEXP ratlabRet = findVar (install ("ratlabReturn"), R_GlobalEnv);
     SEXP rDimNames = getAttrib (ratlabRet, R_DimNamesSymbol);
     SEXP rRowNames = VECTOR_ELT (rDimNames, 0);
