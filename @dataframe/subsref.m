@@ -1,21 +1,21 @@
 function x = subsref(obj, S)
   switch (S.type)
-    case "{}"
+    case '{}'
 % Index directly into the data field
       x = builtin('subsref',obj.data, S);
-    case "."
+    case '.'
 % Address columns by name (like R's $ indexing and Matlab dataset)
       colidx = obj.colidx;
-      idx = eval(strcat("colidx.",S.subs));
+      idx = eval(strcat('colidx.',S.subs));
       data = cell(1, 1);
       data{1,1} = obj.data{1,idx};
       x = dataframe(data,obj.colnames(idx),obj.rownames);
-    case "()"
+    case '()'
 % Address by numeric or labeled indicies
       idx = S.subs;
       l = length(idx);
       n = length(idx{l});
-      if (idx{l} == ":") 
+      if (idx{l} == ':') 
         n = obj.size(2);
         idx{l} = 1:n;
       end

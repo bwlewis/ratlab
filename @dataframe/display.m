@@ -7,27 +7,27 @@ function display(obj)
   n = obj.size(2);   % column count
   l = length(obj.rownames);
   if (l==m) 
-    printf(obj.strformat, '');
+    fprintf(1,obj.strformat, '');
   end
   for j = 1:n
-    printf (obj.strformat, obj.colnames{j});
+    fprintf (1,obj.strformat, obj.colnames{j});
   end
-  printf ("\n");
+  fprintf (1,'\n');
   for j=1:m
     if (l==m) 
-      printf(obj.strformat, obj.rownames{j});
+      fprintf(1,obj.strformat, obj.rownames{j});
     end
     for k = 1:n
       if(length(obj.data{k}) == m)
         if (iscell(obj.data{k}))
-          printf(obj.strformat,num2str(obj.data{k}{j}));
+          fprintf(1,obj.strformat,num2str(obj.data{k}{j}));
         else
-          printf(obj.strformat,num2str(obj.data{k}(j)));
+          fprintf(1,obj.strformat,num2str(obj.data{k}(j)));
         end
       else
-        printf(obj.strformat,num2str((obj.data{k}{1})(j)));
+        fprintf(1,obj.strformat,num2str(obj.data{k}{1}(j)));
       end
     end
-    printf ('\n');
+    fprintf (1,'\n');
   end
 end %function

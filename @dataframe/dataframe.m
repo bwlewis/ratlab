@@ -13,14 +13,14 @@ function df = dataframe(varargin)
   if (nargin == 0), help dataframe, return, end
   df = struct;
   df.colnames = {};
-  df.colidx = NA;
+  df.colidx = {};
   df.rownames = {};
-  df.rowidx = NA;
+  df.rowidx = {};
   df.size = [0, 0];
-  df.strformat = "%13.13s";    % for formatting output (see display.m)
+  df.strformat = '%13.13s';    % for formatting output (see display.m)
   if (iscell(varargin{1}))
       df.data = varargin{1};
-  elseif (ismatrix(varargin{1}))
+  elseif (isnumeric(varargin{1}))
     [m,n] = size(varargin{1});
     df.data = mat2cell(varargin{1},m,ones(1,n));
   else
@@ -38,15 +38,15 @@ function df = dataframe(varargin)
 % Make column names up
     df.colnames = cell(1,n);
     for j = 1:n
-      df.colnames(1,j) = strcat('X',num2str(j));
+      df.colnames{1,j} = strcat('X',num2str(j));
     end
   end
   cl = length(df.colnames);
-%    if (cl != n)
+%    if (cl ~= n)
 %      error('Number of column labels does not match number of columns.');
 %    end
   df.colidx = cell2struct(mat2cell(1:cl,1,ones(cl,1)),df.colnames,2);
-  if(length(fieldnames(df.colidx)) != cl)
+  if(length(fieldnames(df.colidx)) ~= cl)
     error('Column labels must be unique.');
   end
 % XXX 
@@ -60,7 +60,7 @@ function df = dataframe(varargin)
     if (rl>0)
       df.rowidx = cell2struct(mat2cell(1:rl,1,ones(rl,1)),df.rownames,2);
 % XXX See note above for column names.
-      if(length(fieldnames(df.rowidx)) != rl)
+      if(length(fieldnames(df.rowidx)) ~= rl)
         error('Row names must be unique.');
       end
     end
