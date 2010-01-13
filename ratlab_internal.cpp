@@ -15,9 +15,9 @@ using namespace std;
 // TODO: Currently, tight coupling is only going to be possible with 
 //       Numeric types.  Should we create an analogous factor?
 #if defined(WIN32) || defined(WIN64)
-extern int R_running_as_main_program;
-#else
 static int R_running_as_main_program;
+#else
+extern int R_running_as_main_program;
 #endif
 
 static int R_is_running = 0;
