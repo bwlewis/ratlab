@@ -1,0 +1,30 @@
+Ratlab has been designed to work on both *nix platforms and windows.
+Currently we do not have an automated installer for windows, but you
+can follow these instructions to use Ratlab.
+- Install R from CRAN (http://cran.r-project.org/).  We recommend using
+  the binary installer.
+- We need to add R's bin directory to the path. There are many ways to
+  accomplish this, but the simplest is to open a command line and do the
+  following (assuming default R install location):
+
+  C:\>cd ratlab
+  C:\ratlab>copy c:\Program Files\R\R-2.10.1\bin\R.dll c:\Program Files\R\R-2.10.1\bin\R.lib
+  C:\ratlab>set PATH=%PATH%;c:\Program Files\R\R-2.10.1\bin
+  C:\ratlab>matlab
+  C:\ratlab>
+
+- Once matlab has started, compile the mex file using the following:
+
+  mex -I"C:\Program Files\R\R-2.10.1\include" -L"C:\Program Files\R\R-2.10.1\bin" -lR ratlab_internal.cpp
+
+-------------------------------------------------------------------------
+All subsequent uses of Ratlab will still require that R's bin directory 
+is in the system path. This can be accomplished by having your system
+administrator permanently add the path or by launching matlab from the
+command line as in the installation instructions:
+
+  C:\>cd ratlab
+  C:\ratlab>set PATH=%PATH%;c:\Program Files\R\R-2.10.1\bin
+  C:\ratlab>matlab
+  C:\ratlab>
+
