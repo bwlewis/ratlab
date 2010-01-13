@@ -6,15 +6,15 @@ function ret = ratlab(varNames, data, cmd)
   % Go through each of the cell elements.  If its a data frame, typecast
   % it to a struct.
   for i=1:length(data)
-    if class(data{i}) == 'dataframe'
+    if strcmp(class(data{i}), 'dataframe')
       data{i} = struct(data{i});
-    endif
-  endfor
+    end
+  end
 
   switch class(data)
-    case "cell"
+    case 'cell'
       ret = ratlab_internal(varNames, data, cmd);
     otherwise
-      error("unknown data type")
-  endswitch
-endfunction
+      error('unknown data type')
+  end
+end
